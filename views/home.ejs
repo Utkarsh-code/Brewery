@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brewery</title>
+    <!-- Add your CSS links or styles here -->
+    
+</head>
+<body>
+    <header>
+        <h1>Brewery</h1>
+       
+            <h2><a href="login">Login</a></h2>
+            <h2><a href="signup">Signup</a></h2>
+       
+        <h2><a href="createBrewery">Create Brewery</a></h2>
+        <!-- Add navigation links or any other header content here -->
+    </header>
+
+
+<main>
+    <section>
+        <h2>Welcome to Brewery</h2>
+        <p>Find your nearest beer shop and enjoy.</p>
+
+        <form action="/search" method="get">
+            <label for="searchType">Search By:</label>
+            <select id="searchType" name="searchType">
+                <option value="city">City</option>
+                <option value="name">Name</option>
+                <option value="type">Type</option>
+            </select>
+
+            <label for="searchTerm">Search Term:</label>
+            <input type="text" id="searchTerm" name="searchTerm" required>
+
+            <button type="submit">Search</button>
+        </form>
+    </section>
+    <!-- Add more sections or content as needed -->
+</main>
+
+<footer>
+    <!-- Add footer content and links here -->
+    <p>&copy; 2023 Brewery.</p>
+</footer>
+</body>
+</html>
+
