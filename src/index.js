@@ -5,8 +5,19 @@ const mongoose=require("mongoose");
 const User=require("../schema/login");
 const Brewery=require("../schema/brewery");
 const bodyParser = require('body-parser');
+const flash=require('connect-flash');
+const session = require('express-session'); 
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({ 
+    secret:'brewery', 
+    saveUninitialized: true, 
+    resave: true
+})); 
+
+
+app.use(flash());
 
 // database connecting 
 mongoose.connect("mongodb://localhost:27017/Brewery", { useNewUrlParser: true, useUnifiedTopology: true })
@@ -45,7 +56,8 @@ app.post('/login', async (req, res) => {
         const user = await User.findOne({ username, password });
 
         if (user) {
-            res.render('home');
+           // res.render('home');
+           res.redirect('/');
         } else {
             res.send('Invalid credentials. Please try again.');
         }
@@ -68,8 +80,12 @@ app.post('/signup', async (req, res) => {
         // Create a new user in the database
         const newUser = new User({ username, password });
         await newUser.save();
+         
+       // res.render('home');
+       // res.send('Signup successful! You can now log in.');
+       req.flash('success', 'Account created successfully!');
 
-        res.send('Signup successful! You can now log in.');
+       res.redirect('/');
     } catch (error) {
         console.error('Error during signup:', error);
         res.status(500).send('Internal Server Error');
@@ -100,7 +116,54 @@ app.get('/search', async (req, res) => {
         // Perform the search in the database (replace 'Brewery' with your actual model name)
         const results = await Brewery.find(query);
 
-        res.send(`Search results: ${JSON.stringify(results)}`);
+        const htmlResponse = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Search Results</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        padding: 20px;
+                    }
+                    h2 {
+                        color: #333;
+                    }
+                    ul {
+                        list-style-type: none;
+                        padding: 0;
+                    }
+                    li {
+                        margin-bottom: 10px;
+                    }
+                </style>
+            </head>
+            <body>
+                <h2>Search results:</h2>
+                <ul>
+                    ${results.map(result => `
+                        <li>
+                            <strong>Name:</strong> ${result.name}<br>
+                            <strong>Brewery Type:</strong> ${result.brewery_type || result.type}<br>
+                            <strong>Address:</strong> ${result.address}<br>
+                            <strong>City:</strong> ${result.city}<br>
+                            <strong>State:</strong> ${result.state}<br>
+                            <strong>Postal Code:</strong> ${result.postal_code}<br>
+                            <strong>Phone:</strong> ${result.phone}<br>
+                            <strong>Website URL:</strong> ${result.website_url}<br>
+                            <strong>Country:</strong> ${result.country}<br>
+                        </li>
+                    `).join('')}
+                </ul>
+            </body>
+            </html>
+        `;
+
+        res.send(htmlResponse);
+
+       // res.send(`Search results: ${JSON.stringify(results)}`);
     } catch (error) {
         console.error('Error during search:', error);
         res.status(500).send('Internal Server Error');
@@ -115,7 +178,8 @@ app.post('/createbreweries', async (req, res) => {
         const createdBreweries = await Brewery.create(breweriesData);
 
         //res.send(`Created ${createdBreweries.name} breweries successfully!`);
-        res.render ('showBrewery');
+       // res.render ('home');
+       res.redirect('/');
     } catch (error) {
         console.error('Error creating breweries:', error);
         res.status(500).send('Internal Server Error');

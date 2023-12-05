@@ -5,6 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brewery</title>
     <!-- Add your CSS links or styles here -->
+    <style>
+         body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 82vh;
+            margin: 10px;
+            color: black;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+            margin-top: 0;
+            background-color: #f0f0f0;
+        }
+
+        header h1 {
+            margin: 0; /* Remove default margin */
+        }
+
+        header h2 {
+            margin-left: 20px; /* Adjust as needed for spacing between links */
+        }
+        header h2:nth-child(2) {
+            margin-left: auto; /* Align the third h2 to the rightmost side */
+        }
+
+        main {
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: 250px;
+        }
+    </style>
+
     
 </head>
 <body>
@@ -20,8 +66,8 @@
 
 
 <main>
-    <section>
-        <h2>Welcome to Brewery</h2>
+    <section class="xyz">
+        <h2 >Welcome to Brewery</h2>
         <p>Find your nearest beer shop and enjoy.</p>
 
         <form action="/search" method="get">
