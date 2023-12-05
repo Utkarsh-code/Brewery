@@ -115,7 +115,7 @@ app.post('/createbreweries', async (req, res) => {
         const createdBreweries = await Brewery.create(breweriesData);
 
         //res.send(`Created ${createdBreweries.name} breweries successfully!`);
-        res.render('showBrewery');
+        res.render ('showBrewery');
     } catch (error) {
         console.error('Error creating breweries:', error);
         res.status(500).send('Internal Server Error');
